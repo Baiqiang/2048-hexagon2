@@ -151,9 +151,9 @@ GameManager.prototype.move = function (direction) {
 
   if (moved) {
     this.addRandomTile();
-    if (Math.random() > 0.25) {
-      this.addRandomTile();
-    }
+    // if (Math.random() > 0.25) {
+    //   this.addRandomTile();
+    // }
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
     }
