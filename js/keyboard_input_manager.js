@@ -117,24 +117,15 @@ KeyboardInputManager.prototype.listen = function () {
 
     var dy = event.changedTouches[0].clientY - touchStartClientY;
     var absDy = Math.abs(dy);
-    var tan = dy / dx;
-    var angle = Math.atan(dy / dx) / Math.PI * 180;
-    var delta = 20;
-    var direction
 
-    switch (true) {
-      case angle < 0 + delta && angle > 0 - delta:
-        direction = dx > 0 ? 1 : 0;
-        break;
-      case angle < 60 + delta && angle > 60 - delta:
-        direction = dx > 0 ? 3 : 2;
-        break;
-      case angle < -60 + delta && angle > -60 - delta:
-        direction = dx > 0 ? 4 : 5;
-        break;
-    }
-    if (direction !== undefined) {
-      self.emit("move", direction);
+    if (Math.max(absDx, absDy) > 10) {
+      if (absDx > absDy) {
+        if (self.emit("move", dx > 0 ? 1 : 0)) {
+          lastLRDereiction = dx > 0 ? 1 : 0;
+        }
+      } else {
+        self.emit("move", dy < 0 ? 4 - lastLRDereiction * 2 : 3 + lastLRDereiction * 2);
+      }
     }
   });
 };
